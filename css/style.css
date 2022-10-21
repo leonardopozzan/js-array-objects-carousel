@@ -1,5 +1,47 @@
+/********************* Utility **********************/
 *{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+img{
+    max-width: 100%;
+}
+.my-container{
+    max-width: 1200px;
+    margin: 50px auto;
+}
+.my-flex{
+    display: flex;
+    flex-wrap: wrap;
+    position: relative;
+}
+
+/********************* Carosello **********************/
+.main-image{
+    position: relative;
+    padding: 0.25rem;
+}
+.title-image{
+    position: absolute;
+    top: 30px; right: 30px;
+    text-align: right;
+    color: white;
+}
+.description-image{
+    font-size: 20px;
+}
+.my-carousel-image{
+    padding: 0.25rem;
+    opacity: 0.5;
+}
+#previous{
+    position: absolute;
+    bottom: 6%; left: 0.5%;
+
+}
+#next{
+    position: absolute;
+    bottom: 6%; right: 0.5%;
+
 }
