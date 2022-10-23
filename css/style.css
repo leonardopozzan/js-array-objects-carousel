@@ -33,6 +33,7 @@ img{
 }
 .my-carousel-image{
     padding: 0.25rem;
+    cursor: pointer;
 }
 #previous{
     position: absolute;

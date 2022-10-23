@@ -20,80 +20,115 @@
 
 const images = [
     {
+        id : '0',
         url: 'http://www.viaggiareonline.it/wp-content/uploads/2014/11/sweden_148857365.jpg',
         title: 'Svezia',
         description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Et temporibus voluptatum suscipit tempore aliquid deleniti aut veniam.'
     },
     {
+        id : '1',
         url: 'https://static1.evcdn.net/images/reduction/1513757_w-1920_h-1080_q-70_m-crop.jpg',
         title: 'Perù',
         description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Et temporibus voluptatum suscipit tempore aliquid deleniti aut veniam.'
     },
     {
+        id : '2',
         url: 'https://img.itinari.com/pages/images/original/0d3ed180-d22d-48e8-84df-19c4d888b41f-62-crop.jpg?ch=DPR&dpr=2.625&w=1600&s=7ebd4b5a9e045f41b4e0c7c75d298d6c',
         title: 'Chile',
         description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Et temporibus voluptatum suscipit tempore aliquid deleniti aut veniam.'
     },
     {
+        id : '3',
         url: 'https://static1.evcdn.net/images/reduction/1583177_w-1920_h-1080_q-70_m-crop.jpg',
         title: 'Argentina',
         description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Et temporibus voluptatum suscipit tempore aliquid deleniti aut veniam.'
     },
     {
+        id : '4',
         url: 'https://cdn.sanity.io/images/24oxpx4s/prod/ed09eff0362396772ad50ec3bfb728d332eb1c30-3200x2125.jpg?w=1600&h=1063&fit=crop',
         title: 'Colombia',
         description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Et temporibus voluptatum suscipit tempore aliquid deleniti aut veniam.'
     },
 ];
 
-
-{/* <div class="col-12 main-image">
-                <img src="http://www.viaggiareonline.it/wp-content/uploads/2014/11/sweden_148857365.jpg" alt="">
-                <div class="title-image">
-                    <h1>Svezia</h1>
-                    <span class="description-image">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Et temporibus voluptatum suscipit tempore aliquid deleniti aut veniam.</span>
-                </div>
-            </div>
-            <div class="col my-carousel-image">
-                <img src="http://www.viaggiareonline.it/wp-content/uploads/2014/11/sweden_148857365.jpg" alt="">
-            </div>
-            <div class="col my-carousel-image">
-                <img src="https://static1.evcdn.net/images/reduction/1513757_w-1920_h-1080_q-70_m-crop.jpg" alt="">
-            </div>
-            <div class="col my-carousel-image">
-                <img src="https://img.itinari.com/pages/images/original/0d3ed180-d22d-48e8-84df-19c4d888b41f-62-crop.jpg?ch=DPR&dpr=2.625&w=1600&s=7ebd4b5a9e045f41b4e0c7c75d298d6c" alt="">
-            </div>
-            <div class="col my-carousel-image">
-                <img src="https://static1.evcdn.net/images/reduction/1583177_w-1920_h-1080_q-70_m-crop.jpg" alt="">
-            </div>
-            <div class="col my-carousel-image">
-                <img src="https://cdn.sanity.io/images/24oxpx4s/prod/ed09eff0362396772ad50ec3bfb728d332eb1c30-3200x2125.jpg?w=1600&h=1063&fit=crop" alt="">
-            </div>
-            <input type="button" id="previous" class="btn btn-dark" value="Previous">
-            <input type="button" id="next" class="btn btn-dark" value="Next"></input> */}
-
 const contaier = document.querySelector('.my-container');
 createCarousel(images);
 
 const mainImage = document.querySelectorAll('.main-image');
-const carouselImage = document.querySelectorAll('.my-carousel-image')
-shiftCarousel(mainImage,'d-none');
-shiftCarousel(carouselImage, 'my-opacity');
+const carouselImage = document.querySelectorAll('.my-carousel-image');
+
+let activeSlide = 0;
+mainImage[activeSlide].classList.toggle('d-none');
+carouselImage[activeSlide].classList.toggle('my-opacity');
 
 
-function shiftCarousel(objectArray,classe){
-    objectArray[0].classList.toggle(classe);
-    setInterval(showImage,1500,objectArray);
-    let i=0;
-    let j=1;
-    function showImage(objectArray){
-    const x = mod5(i);
-    const y = mod5(j);
-    objectArray[x].classList.toggle(classe);
-    objectArray[y].classList.toggle(classe);
-    i++;
-    j++;
+const btnNext = document.querySelector('#next');
+btnNext.addEventListener('click',next);
+
+const btnPrev = document.querySelector('#previous');
+btnPrev.addEventListener('click',prev);
+
+const btnStopPlay = document.querySelector('#stop');
+btnStopPlay.addEventListener('click',stopPlay);
+const btnInverse = document.querySelector('#inverse');
+btnInverse.addEventListener('click',inverseOrder);
+
+function inverseOrder(){
+    
+    clearInterval(interval);
+    intervalInverse = setInterval(prev,2000);
+    btnStopPlay.value ='Interrompi scorrimento';
+    
+}
+
+let intervalInverse;  
+
+let interval = setInterval(next,2000);
+
+function next(){
+    const currentId = mod5(activeSlide);
+    const nextId = mod5((activeSlide+1));
+    mainImage[currentId].classList.toggle('d-none');
+    mainImage[nextId].classList.toggle('d-none');
+    carouselImage[currentId].classList.toggle('my-opacity');
+    carouselImage[nextId].classList.toggle('my-opacity');
+    activeSlide++;
+    
+}
+function prev(){
+    if (activeSlide<0){
+        activeSlide = 4;
+    }
+    const currentId = mod5(activeSlide);
+    const prevId = mod5((activeSlide+4));
+
+    mainImage[currentId].classList.toggle('d-none');
+    mainImage[prevId].classList.toggle('d-none');
+    carouselImage[currentId].classList.toggle('my-opacity');
+    carouselImage[prevId].classList.toggle('my-opacity');
+    activeSlide--;
+}
+function stopPlay(){
+    if(btnStopPlay.value == 'Interrompi scorrimento'){
+        clearInterval(interval);
+        clearInterval(intervalInverse);
+        btnStopPlay.value ='Inizia scorrimento';
+    }else{
+        btnStopPlay.value ='Interrompi scorrimento';
+        interval = setInterval(next,2000);
     }
 }
 
-
+for (let image of carouselImage){
+    image.addEventListener('click',
+    function(){
+        clearInterval(interval);
+        btnStopPlay.value='Inizia scorrimento';
+        const currentId = mod5(activeSlide);
+        mainImage[currentId].classList.toggle('d-none');
+        carouselImage[currentId].classList.toggle('my-opacity');
+        this.classList.toggle('my-opacity');
+        activeSlide = parseInt(this.id);
+        mainImage[activeSlide].classList.toggle('d-none');
+    })
+}

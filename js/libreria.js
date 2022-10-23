@@ -6,7 +6,7 @@ function addElementClassHTML(tagElement, className, fatherElement){
     return tag;
 }
 
-//funzione che crea le immagini piccole del carosello
+//funzione che crea le immagini grandi del carosello
 function createMainImage(object){
     const mainImage = document.createElement('div');
     mainImage.className = 'col-12 main-image d-none';
@@ -14,22 +14,23 @@ function createMainImage(object){
     `
     <img src="${object.url}" alt="${object.title}" class="big-dimension">
     <div class="title-image">
-        <h1>${object.title}</h1>
+        <h1>${object.title}&#128205;</h1>
         <span class="description-image">${object.description}</span>
     </div>
     `
     return mainImage;
 }
 
-//funzione che crea l'immagine grande
+//funzione che crea l'immagine piccola
 function createCarouselImage(object){
     const carouselImage = document.createElement('div');
+    carouselImage.id = object.id;
     carouselImage.className = 'col my-carousel-image my-opacity';
     carouselImage.innerHTML = `<img src="${object.url}" alt="${object.title}" class="small-dimension">`
     return carouselImage;
 }
 
-//funzione che crea l'intero caroselo
+//funzione che crea l'intero carosello
 function createCarousel(objectArray){
     const myFlex = document.createElement('div');
     myFlex.className = 'my-flex';
@@ -52,5 +53,5 @@ function createCarousel(objectArray){
 }
 
 function mod5(numb){
-    return numb%5
+    return Math.abs(numb%5);
 }
