@@ -74,11 +74,17 @@ const btnInverse = document.querySelector('#inverse');
 btnInverse.addEventListener('click',inverseOrder);
 
 function inverseOrder(){
-    
-    clearInterval(interval);
-    intervalInverse = setInterval(prev,2000);
-    btnStopPlay.value ='Interrompi scorrimento';
-    
+    if(btnInverse.value == 'Scorri Indietro'){
+        clearInterval(interval);
+        intervalInverse = setInterval(prev,2000);
+        btnStopPlay.value = 'Interrompi scorrimento';
+        btnInverse.value = 'Scorri avanti';
+    }else{
+        clearInterval(intervalInverse);
+        interval = setInterval(next,2000);
+        btnStopPlay.value = 'Interrompi scorrimento';
+        btnInverse.value = 'Scorri Indietro';
+    }
 }
 
 let intervalInverse;  
@@ -112,7 +118,8 @@ function stopPlay(){
     if(btnStopPlay.value == 'Interrompi scorrimento'){
         clearInterval(interval);
         clearInterval(intervalInverse);
-        btnStopPlay.value ='Inizia scorrimento';
+        btnStopPlay.value ='Scorri avanti';
+        btnInverse.value = 'Scorri Indietro';
     }else{
         btnStopPlay.value ='Interrompi scorrimento';
         interval = setInterval(next,2000);
@@ -123,7 +130,9 @@ for (let image of carouselImage){
     image.addEventListener('click',
     function(){
         clearInterval(interval);
-        btnStopPlay.value='Inizia scorrimento';
+        clearInterval(intervalInverse);
+        btnStopPlay.value='Scorri avanti';
+        btnInverse.value = 'Scorri Indietro';
         const currentId = mod5(activeSlide);
         mainImage[currentId].classList.toggle('d-none');
         carouselImage[currentId].classList.toggle('my-opacity');

@@ -24,7 +24,11 @@ img{
 }
 .title-image{
     position: absolute;
-    top: 30px; right: 30px;
+    top: 0.25rem; right: 0.25rem;
+    padding-top: 30px;
+    padding-right: 30px;
+    background-color: rgba(0, 0, 0, 0.4);
+    width: calc(100% - 0.5rem);
     text-align: right;
     color: white;
 }
